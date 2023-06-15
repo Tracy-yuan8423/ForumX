@@ -1,0 +1,139 @@
+{
+    "fskey": "ForumX",
+    "name": "ForumX",
+    "description": "传统 BBS 论坛风格的主题模板，采用响应式设计，自适应电脑、平板电脑、移动设备。",
+    "author": "Fresns",
+    "authorLink": "https://fresns.org",
+    "version": "1.10.3",
+    "functions": true,
+    "functionKeys": [
+        {
+            "itemKey": "fs_forumx_navbar_portal",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_navbar_user",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_navbar_group",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_navbar_hashtag",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_navbar_post",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_navbar_comment",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_forumx_group_index",
+            "itemType": "number",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_theme_loading",
+            "itemType": "boolean",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_theme_quick_publish",
+            "itemType": "boolean",
+            "itemTag": "themes",
+            "isMultilingual": false
+        },
+        {
+            "itemKey": "fs_theme_notifications",
+            "itemType": "array",
+            "itemTag": "themes",
+            "isMultilingual": false
+        }
+    ],
+    "functionLang": {
+        "en": {
+            "name": "ForumX",
+            "description": "Traditional BBS forum style theme template with responsive design, adapts to computers, tablets, mobile devices.",
+            "save": "Save",
+            "menuConfig": "Menu navigation order",
+            "groupConfig": "Group home display style",
+            "loadingConfig": "Loading dynamic effects",
+            "quickPublishConfig": "Quick publish post",
+            "notificationConfig": "Does the message page display",
+            "option_tip": "Please select...",
+            "option_support": "Support",
+            "option_no_support": "No Support",
+            "notification_systems": "Systems",
+            "notification_recommends": "Recommends",
+            "notification_likes": "Likes",
+            "notification_dislikes": "Dislikes",
+            "notification_follows": "Follows",
+            "notification_blocks": "Blocks",
+            "notification_mentions": "Mentions",
+            "notification_comments": "Comments",
+            "notification_quotes": "Quotes"
+        },
+        "zh-Hans": {
+            "name": "ForumX",
+            "description": "传统 BBS 论坛风格的主题模板，采用响应式设计，自适应电脑、平板电脑、移动设备。",
+            "save": "保存",
+            "menuConfig": "菜单导航顺序",
+            "groupConfig": "小组主页显示样式",
+            "loadingConfig": "加载动效",
+            "quickPublishConfig": "快速发表帖子",
+            "notificationConfig": "消息页是否显示",
+            "option_tip": "请选择...",
+            "option_support": "支持",
+            "option_no_support": "不支持",
+            "notification_systems": "系统通知",
+            "notification_recommends": "推荐",
+            "notification_likes": "点赞",
+            "notification_dislikes": "踩",
+            "notification_follows": "关注",
+            "notification_blocks": "屏蔽",
+            "notification_mentions": "提及",
+            "notification_comments": "评论",
+            "notification_quotes": "引用"
+        },
+        "zh-Hant": {
+            "name": "ForumX",
+            "description": "傳統 BBS 論壇風格的主題模板，採用回應式設計，自適應電腦、平板電腦、移動設備。",
+            "save": "保存",
+            "menuConfig": "菜單導航順序",
+            "groupConfig": "社團主頁顯示樣式",
+            "loadingConfig": "加載動效",
+            "quickPublishConfig": "快速發表帖子",
+            "notificationConfig": "消息頁是否顯示",
+            "option_tip": "請選擇...",
+            "option_support": "支持",
+            "option_no_support": "不支持",
+            "notification_systems": "系統通知",
+            "notification_recommends": "推薦",
+            "notification_likes": "喜歡",
+            "notification_dislikes": "不喜歡",
+            "notification_follows": "跟隨",
+            "notification_blocks": "封鎖",
+            "notification_mentions": "提及",
+            "notification_comments": "留言",
+            "notification_quotes": "引用"
+        }
+    }
+}
