@@ -22,7 +22,7 @@
     </div>
 
     <div class="mx-3">
-        <a href="{{ request()->fullUrlWithQuery(['orderType' => 'createDate']) }}" class="@if (request('orderType') == 'createDate') fw-semibold @endif">{{ fs_lang('contentNewList') }}</a>
+        <a href="{{ request()->fullUrlWithQuery(['orderType' => 'createdTime']) }}" class="@if (request('orderType') == 'createdTime') fw-semibold @endif">{{ fs_lang('contentNewList') }}</a>
     </div>
 
     <div class="me-3">
@@ -38,14 +38,14 @@
 
         <ul class="dropdown-menu">
             <li><span class="dropdown-item-text">{{ fs_lang('rankNum') }}</span></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['orderType' => 'createDate']) }}">{{ fs_lang('contentPublishTime') }}</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['orderType' => 'createdTime']) }}">{{ fs_lang('contentPublishTime') }}</a></li>
             <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['orderType' => 'comment']) }}">{{ fs_db_config('comment_name') }}</a></li>
             <li><span class="dropdown-item-text">{{ fs_lang('contentPublishTime') }}</span></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createDateGt' => date('Y-m-d', strtotime('yesterday'))]) }}">一天</a></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createDateGt' => date('Y-m-d', strtotime('-2 days'))]) }}">两天</a></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createDateGt' => date('Y-m-d', strtotime('-1 week'))]) }}">一周</a></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createDateGt' => date('Y-m-d', strtotime('-1 month'))]) }}">一个月</a></li>
-            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createDateGt' => date('Y-m-d', strtotime('-3 months'))]) }}">三个月</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createdDays' => 1]) }}">一天</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createdDays' => 2]) }}">两天</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createdDays' => 7]) }}">一周</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createdDays' => 30]) }}">一个月</a></li>
+            <li><a class="dropdown-item" href="{{ request()->fullUrlWithQuery(['createdDays' => 90]) }}">三个月</a></li>
         </ul>
     </div>
 </div>
