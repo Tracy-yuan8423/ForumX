@@ -1704,7 +1704,7 @@ window.onmessage = function (event) {
             break;
 
         case 'fresnsConnect':
-            if (fresnsCallback.action.reloadData) {
+            if (fresnsCallback.action.dataHandler == 'reload') {
                 window.location.href = `/${langTag}/account/settings#account-tab`;
             }
             break;
@@ -1735,12 +1735,24 @@ window.onmessage = function (event) {
             });
             break;
 
-        case 'fresnsEditorUpload':
-            fresnsCallback.data.forEach((fileinfo) => {
-                addEditorAttachment(fileinfo);
-            });
+        case 'fresnsUserManage':
+            window.location.reload();
+            break;
 
-            if (fresnsCallback.action.reloadData) {
+        case 'fresnsPostManage':
+            window.location.reload();
+            break;
+
+        case 'fresnsCommentManage':
+            window.location.reload();
+            break;
+
+        case 'fresnsEditorUpload':
+            if (fresnsCallback.action.dataHandler == 'add') {
+                fresnsCallback.data.forEach((fileinfo) => {
+                    addEditorAttachment(fileinfo);
+                });
+
                 $('#fresnsModal').modal('hide');
 
                 return;
