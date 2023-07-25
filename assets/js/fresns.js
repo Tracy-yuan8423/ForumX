@@ -4,6 +4,14 @@
  * Licensed under the Apache-2.0 license
  */
 
+// utc timezone
+const now = new Date();
+const timezoneOffsetInHours = now.getTimezoneOffset() / -60;
+const fresnsTimezone = (timezoneOffsetInHours > 0 ? '+' : '') + timezoneOffsetInHours.toString();
+const expires = new Date();
+expires.setFullYear(expires.getFullYear() + 1);
+document.cookie = `fresns_timezone=${fresnsTimezone}; expires=${expires.toUTCString()}; path=/`;
+
 // bootstrap Tooltips
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
