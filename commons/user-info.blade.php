@@ -39,8 +39,8 @@
         <div class="dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 {{ fs_db_config('menu_notifications') }}
-                @if (array_sum(fs_user_panel('unreadNotifications')) > 0)
-                    <span class="badge bg-danger">{{ array_sum(fs_user_panel('unreadNotifications')) }}</span>
+                @if (fs_user_panel('unreadNotifications.all') > 0)
+                    <span class="badge bg-danger">{{ fs_user_panel('unreadNotifications.all') }}</span>
                 @endif
             </a>
             <ul class="dropdown-menu">
@@ -48,8 +48,8 @@
                 <li>
                     <a class="dropdown-item text-decoration-none" href="{{ fs_route(route('fresns.notifications.index')) }}">
                         {{ fs_db_config('menu_notifications_all') }}
-                        @if (array_sum(fs_user_panel('unreadNotifications')) > 0)
-                            <span class="badge bg-danger">{{ array_sum(fs_user_panel('unreadNotifications')) }}</span>
+                        @if (fs_user_panel('unreadNotifications.all') > 0)
+                            <span class="badge bg-danger">{{ fs_user_panel('unreadNotifications.all') }}</span>
                         @endif
                     </a>
                 </li>
