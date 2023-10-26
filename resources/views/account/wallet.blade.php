@@ -82,7 +82,7 @@
                                     <th scope="col">{{ fs_lang('walletLogTime') }}</th>
                                     <th scope="col">{{ fs_lang('walletLogRemark') }}</th>
                                     <th scope="col">{{ fs_lang('walletLogUser') }}</th>
-                                    <th scope="col">{{ fs_lang('walletLogStatus') }}</th>
+                                    <th scope="col">{{ fs_lang('walletLogState') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -95,8 +95,8 @@
                                         <td>{{ $log['openingBalance'] }}</td>
                                         <td>{{ $log['closingBalance'] }}</td>
                                         <td>
-                                            <time class="text-secondary" datetime="{{ $log['createdDatetime'] }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $log['createdDatetime'] }}">
-                                                {{ $log['createdTimeAgo'] }}
+                                            <time class="text-secondary" datetime="{{ $log['datetime'] }}" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ $log['datetime'] }}">
+                                                {{ $log['timeAgo'] }}
                                             </time>
                                         </td>
                                         <td>{{ $log['remark'] }}</td>
@@ -113,7 +113,7 @@
                                                 @endif
                                             @endif
                                         </td>
-                                        <td><i class="bi {{ $log['status'] ? 'bi-check-lg text-success' : 'bi-dash-lg text-secondary' }}"></i></td>
+                                        <td>{{ fs_lang("walletLogState{$log['state']}") }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
