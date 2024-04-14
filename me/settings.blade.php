@@ -19,8 +19,10 @@
                         <p>{{ fs_lang('executionDate') }}: {{ fs_account('detail.waitDeleteDateTime') }}</p>
                         <hr>
                         <button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                            data-modal-height="700px"
                             data-title="{{ fs_lang('accountRevokeDelete') }}"
                             data-url="{{ fs_config('account_center_service') }}"
+                            data-redirect-url="{{ urlencode(request()->fullUrl()) }}"
                             data-post-message-key="reload">
                             {{ fs_lang('accountRevokeDelete') }}
                         </button>
@@ -39,7 +41,7 @@
                                 <img src="{{ fs_user('detail.avatar') }}" loading="lazy" class="rounded-circle" style="width:8rem;height:8rem;">
                                 <div class="position-absolute top-50 start-50 translate-middle">
                                     <label class="btn btn-light" type="button" for="uploadAvatar"><i class="bi bi-camera-fill"></i></label>
-                                    <input hidden="hidden" type="file" name="uploadAvatar" id="uploadAvatar" accept="{{ fs_post_editor('image.inputAccept') }}" data-user-fsid="{{ fs_user('detail.uid') }}" data-upload-action="{{ route('fresns.api.post', ['path' => '/api/fresns/common/v1/file/uploads']) }}">
+                                    <input hidden="hidden" type="file" name="uploadAvatar" id="uploadAvatar" accept="{{ fs_post_editor('image.inputAccept') }}" data-user-fsid="{{ fs_user('detail.uid') }}" data-upload-action="{{ route('fresns.api.post', ['path' => '/api/fresns/common/v1/file/upload']) }}">
                                 </div>
                             </div>
                         </div>
@@ -216,9 +218,10 @@
                             <span class="input-group-text">{{ fs_lang('accountCenter') }}</span>
                             <span class="form-control">{{ fs_lang('accountCenterDesc') }}</span>
                             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                                data-modal-height="700px"
                                 data-title="{{ fs_lang('accountCenter') }}"
                                 data-url="{{ fs_config('account_center_service') }}"
-                                data-redirect-url="{{ request()->url() }}"
+                                data-redirect-url="{{ urlencode(request()->fullUrl()) }}"
                                 data-post-message-key="reload">
                                 {{ fs_lang('accountCenterSeeMore') }}
                             </button>

@@ -35,13 +35,14 @@
 
     {{-- 图片 --}}
     @if ($editorConfig['image']['status'])
-        @if ($editorConfig['image']['uploadType'] == 'api')
-            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresns-upload"
+        @if ($editorConfig['image']['uploadType'] == 'page')
+            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsUploadModal"
                 data-type="image"
+                data-uploadtype="{{ $editorConfig['image']['uploadType'] }}"
                 data-accept="{{ $editorConfig['image']['inputAccept'] }}"
                 data-extensions="{{ $editorConfig['image']['extensions'] }}"
                 data-maxsize="{{ $editorConfig['image']['maxSize'] }}"
-                data-maxnumber="{{ $editorConfig['image']['uploadNumber'] }}">
+                data-maxnumber="{{ $editorConfig['image']['maxUploadNumber'] }}">
                 <div class="d-flex flex-column">
                     <i class="bi bi-image"></i>
                     <span>{{ fs_lang('editorImages') }}</span>
@@ -49,7 +50,7 @@
             </button>
         @else
             <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                data-title="{{ fs_lang('editorUploadTip') }}"
+                data-title="{{ fs_lang('uploadTip') }}"
                 data-url="{{ $editorConfig['image']['uploadUrl'] }}"
                 data-draft-type="{{ $type }}"
                 data-did="{{ $did }}"
@@ -65,22 +66,9 @@
 
     {{-- 视频 --}}
     @if ($editorConfig['video']['status'])
-        @if ($editorConfig['video']['uploadType'] == 'api')
-            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresns-upload"
-                data-type="video"
-                data-accept="{{ $editorConfig['video']['inputAccept'] }}"
-                data-extensions="{{ $editorConfig['video']['extensions'] }}"
-                data-maxsize="{{ $editorConfig['video']['maxSize'] }}"
-                data-maxtime="{{ $editorConfig['video']['maxTime'] }}"
-                data-maxnumber="{{ $editorConfig['video']['uploadNumber'] }}">
-                    <div class="d-flex flex-column">
-                    <i class="bi bi-film"></i>
-                    <span>{{ fs_lang('editorVideos') }}</span>
-                </div>
-            </button>
-        @else
+        @if ($editorConfig['video']['uploadType'] == 'page')
             <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                data-title="{{ fs_lang('editorUploadTip') }}"
+                data-title="{{ fs_lang('uploadTip') }}"
                 data-url="{{ $editorConfig['video']['uploadUrl'] }}"
                 data-draft-type="{{ $type }}"
                 data-did="{{ $did }}"
@@ -91,27 +79,28 @@
                     <span>{{ fs_lang('editorVideos') }}</span>
                 </div>
             </button>
+        @else
+            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsUploadModal"
+                data-type="video"
+                data-uploadtype="{{ $editorConfig['video']['uploadType'] }}"
+                data-accept="{{ $editorConfig['video']['inputAccept'] }}"
+                data-extensions="{{ $editorConfig['video']['extensions'] }}"
+                data-maxsize="{{ $editorConfig['video']['maxSize'] }}"
+                data-maxduration="{{ $editorConfig['video']['maxDuration'] }}"
+                data-maxnumber="{{ $editorConfig['video']['maxUploadNumber'] }}">
+                    <div class="d-flex flex-column">
+                    <i class="bi bi-film"></i>
+                    <span>{{ fs_lang('editorVideos') }}</span>
+                </div>
+            </button>
         @endif
     @endif
 
     {{-- 音频 --}}
     @if ($editorConfig['audio']['status'])
-        @if ($editorConfig['audio']['uploadType'] == 'api')
-            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresns-upload"
-                data-type="audio"
-                data-accept="{{ $editorConfig['audio']['inputAccept'] }}"
-                data-extensions="{{ $editorConfig['audio']['extensions'] }}"
-                data-maxsize="{{ $editorConfig['audio']['maxSize'] }}"
-                data-maxtime="{{ $editorConfig['audio']['maxTime'] }}"
-                data-maxnumber="{{ $editorConfig['audio']['uploadNumber'] }}">
-                <div class="d-flex flex-column">
-                    <i class="bi bi-music-note-beamed"></i>
-                    <span>{{ fs_lang('editorAudios') }}</span>
-                </div>
-            </button>
-        @else
+        @if ($editorConfig['audio']['uploadType'] == 'page')
             <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                data-title="{{ fs_lang('editorUploadTip') }}"
+                data-title="{{ fs_lang('uploadTip') }}"
                 data-url="{{ $editorConfig['audio']['uploadUrl'] }}"
                 data-draft-type="{{ $type }}"
                 data-did="{{ $did }}"
@@ -122,31 +111,46 @@
                     <span>{{ fs_lang('editorAudios') }}</span>
                 </div>
             </button>
+        @else
+            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsUploadModal"
+                data-type="audio"
+                data-uploadtype="{{ $editorConfig['audio']['uploadType'] }}"
+                data-accept="{{ $editorConfig['audio']['inputAccept'] }}"
+                data-extensions="{{ $editorConfig['audio']['extensions'] }}"
+                data-maxsize="{{ $editorConfig['audio']['maxSize'] }}"
+                data-maxduration="{{ $editorConfig['audio']['maxDuration'] }}"
+                data-maxnumber="{{ $editorConfig['audio']['maxUploadNumber'] }}">
+                <div class="d-flex flex-column">
+                    <i class="bi bi-music-note-beamed"></i>
+                    <span>{{ fs_lang('editorAudios') }}</span>
+                </div>
+            </button>
         @endif
     @endif
 
     {{-- 文档 --}}
     @if ($editorConfig['document']['status'])
-        @if ($editorConfig['document']['uploadType'] == 'api')
-            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresns-upload"
-                data-type="document"
-                data-accept="{{ $editorConfig['document']['inputAccept'] }}"
-                data-extensions="{{ $editorConfig['document']['extensions'] }}"
-                data-maxsize="{{ $editorConfig['document']['maxSize'] }}"
-                data-maxnumber="{{ $editorConfig['document']['uploadNumber'] }}">
+        @if ($editorConfig['document']['uploadType'] == 'page')
+            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsModal"
+                data-title="{{ fs_lang('uploadTip') }}"
+                data-url="{{ $editorConfig['document']['uploadUrl'] }}"
+                data-draft-type="{{ $type }}"
+                data-did="{{ $did }}"
+                data-upload-info="{{ $type.'Draft,'.$did.',document' }}"
+                data-post-message-key="fresnsEditorUpload">
                 <div class="d-flex flex-column">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>{{ fs_lang('editorDocuments') }}</span>
                 </div>
             </button>
         @else
-            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsModal"
-                data-title="{{ fs_lang('editorUploadTip') }}"
-                data-url="{{ $editorConfig['document']['uploadUrl'] }}"
-                data-draft-type="{{ $type }}"
-                data-did="{{ $did }}"
-                data-upload-info="{{ $type.'Draft,'.$did.',document' }}"
-                data-post-message-key="fresnsEditorUpload">
+            <button type="button" class="btn btn-outline-secondary rounded-0 border-0" data-bs-toggle="modal" data-bs-target="#fresnsUploadModal"
+                data-type="document"
+                data-uploadtype="{{ $editorConfig['document']['uploadType'] }}"
+                data-accept="{{ $editorConfig['document']['inputAccept'] }}"
+                data-extensions="{{ $editorConfig['document']['extensions'] }}"
+                data-maxsize="{{ $editorConfig['document']['maxSize'] }}"
+                data-maxnumber="{{ $editorConfig['document']['maxUploadNumber'] }}">
                 <div class="d-flex flex-column">
                     <i class="bi bi-file-earmark-text"></i>
                     <span>{{ fs_lang('editorDocuments') }}</span>
@@ -236,7 +240,6 @@
     @endif
 </div>
 
-
 {{-- 艾特 Modal --}}
 @if ($editorConfig['mention']['status'] && $editorConfig['mention']['display'])
     <div class="modal fade" id="fresns-mention" tabindex="-1" aria-labelledby="fresns-mention" aria-hidden="true">
@@ -246,7 +249,7 @@
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">@</span>
                         <input type="text" list="memberLists" class="form-control" id="atUser" placeholder="{{ fs_config('user_username_name') }} {{ fs_lang('modifierOr') }} {{ fs_config('user_nickname_name') }}">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" data-bs-dismiss="modal" aria-label="Close">✓</button>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal" aria-label="Close">✓</button>
                     </div>
                     <datalist id="memberLists">
 
@@ -257,7 +260,6 @@
     </div>
 @endif
 
-
 {{-- 话题 Modal --}}
 @if ($editorConfig['hashtag']['status'] && $editorConfig['hashtag']['display'])
     <div class="modal fade" id="fresns-hashtag" tabindex="-1" aria-labelledby="fresns-hashtag" aria-hidden="true">
@@ -267,7 +269,7 @@
                     <div class="input-group">
                         <span class="input-group-text" id="basic-addon1">#</span>
                         <input type="text" list="hashtagLists" id="atHashtag" class="form-control" placeholder="{{ fs_config('hashtag_name') }}">
-                        <button class="btn btn-outline-secondary" type="button" id="button-addon2" data-bs-dismiss="modal" aria-label="Close">✓</button>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal" aria-label="Close">✓</button>
                     </div>
                     <datalist id="hashtagLists">
 
