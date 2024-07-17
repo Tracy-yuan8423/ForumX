@@ -87,7 +87,7 @@ window.onmessage = function (event) {
 
         case 'fresnsAccountSign':
             html = `<div class="position-fixed top-50 start-50 translate-middle bg-secondary bg-opacity-75 rounded px-4 py-3" style="z-index:2048;">
-                <div>
+                <div class="text-center">
                     <div class="spinner-border text-light" role="status">
                         <span class="visually-hidden">Loading...</span>
                     </div>
@@ -114,16 +114,11 @@ window.onmessage = function (event) {
                     const authToken = res.data.authToken;
                     const expiredDays = res.data.authToken.expiredDays || 365;
 
-                    const cookiePrefix = window.cookiePrefix;
-                    const cookieNameAid = cookiePrefix + 'aid';
-                    const cookieNameAidToken = cookiePrefix + 'aid_token';
-                    const cookieNameUid = cookiePrefix + 'uid';
-                    const cookieNameUidToken = cookiePrefix + 'uid_token';
-
-                    // Cookies.set(cookieNameAid, authToken.aid, { expires: expiredDays });
-                    // Cookies.set(cookieNameAidToken, authToken.aidToken, { expires: expiredDays });
-                    // Cookies.set(cookieNameUid, authToken.uid, { expires: expiredDays });
-                    // Cookies.set(cookieNameUidToken, authToken.uidToken, { expires: expiredDays });
+                    // The site engine automatically sets an auth token cookie, so you don't need to set one.
+                    // Cookies.set('fresns_aid', authToken.aid, { expires: expiredDays });
+                    // Cookies.set('fresns_aid_token', authToken.aidToken, { expires: expiredDays });
+                    // Cookies.set('fresns_uid', authToken.uid, { expires: expiredDays });
+                    // Cookies.set('fresns_uid_token', authToken.uidToken, { expires: expiredDays });
 
                     window.location.reload();
                 },

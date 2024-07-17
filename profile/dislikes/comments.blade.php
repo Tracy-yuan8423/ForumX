@@ -4,7 +4,7 @@
     {{-- 列表 --}}
     <article class="py-4">
         @foreach($comments as $comment)
-            @component('components.comment.list', [
+            @component('components.comments.list', [
                 'comment' => $comment,
                 'detailLink' => true,
                 'sectionAuthorLiked' => false,

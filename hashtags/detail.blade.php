@@ -15,7 +15,7 @@
             {{-- 中间内容 --}}
             <div class="col-sm-6">
                 <div class="card shadow-sm mb-3">
-                    @component('components.hashtag.detail', compact('hashtag'))@endcomponent
+                    @component('components.hashtags.detail', compact('hashtag'))@endcomponent
                 </div>
 
                 {{-- 列表 --}}
@@ -24,7 +24,7 @@
                     @case('posts')
                         <div class="card clearfix" id="fresns-list-container">
                             @foreach($posts as $post)
-                                @component('components.post.list', compact('post'))@endcomponent
+                                @component('components.posts.list', compact('post'))@endcomponent
 
                                 @if (! $loop->last)
                                     <hr>
@@ -42,7 +42,7 @@
                     @case('comments')
                         <div class="card clearfix" id="fresns-list-container">
                             @foreach($comments as $comment)
-                                @component('components.comment.list', [
+                                @component('components.comments.list', [
                                     'comment' => $comment,
                                     'detailLink' => true,
                                     'sectionAuthorLiked' => false,

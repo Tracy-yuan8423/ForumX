@@ -10,13 +10,13 @@
         <div class="d-flex justify-content-between fs-text-decoration fs-breadcrumb mt-2">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{ fs_route(route('fresns.home')) }}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ fs_route(route('fresns.group.index')) }}">{{ fs_config('channel_group_name') }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fresns.home') }}"><i class="bi bi-house-door-fill"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fresns.group.index') }}">{{ fs_config('channel_group_name') }}</a></li>
                 </ol>
             </nav>
             <div class="pt-1">
                 @if (fs_user()->check())
-                    <a href="{{ fs_route(route('fresns.profile.index', ['uidOrUsername' => fs_user('detail.uid')])) }}" class="fs-8">{{ fs_lang('userProfile') }}</a>
+                    <a href="{{ route('fresns.profile.index', ['uidOrUsername' => fs_user('detail.uid')]) }}" class="fs-8">{{ fs_lang('userProfile') }}</a>
                 @endif
             </div>
         </div>
@@ -36,7 +36,7 @@
                             @endphp
                             <div class="row">
                                 @foreach($tree['groups'] ?? [] as $group)
-                                    @component('components.group.grid-list', [
+                                    @component('components.groups.grid-list', [
                                         'group' => $group,
                                         'colNumber' => $colNumber,
                                     ])@endcomponent
@@ -44,7 +44,7 @@
                             </div>
                         @else
                             @foreach($tree['groups'] ?? [] as $group)
-                                @component('components.group.list', compact('group'))@endcomponent
+                                @component('components.groups.list', compact('group'))@endcomponent
                                 @if (! $loop->last)
                                     <hr>
                                 @endif
@@ -56,7 +56,7 @@
                 {{-- 小组列表 --}}
                 <div class="card rounded-0 mb-4 pb-4">
                     @foreach($groups ?? [] as $group)
-                        @component('components.group.list', compact('group'))@endcomponent
+                        @component('components.groups.list', compact('group'))@endcomponent
                         @if (! $loop->last)
                             <hr>
                         @endif

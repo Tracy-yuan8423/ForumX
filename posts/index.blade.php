@@ -18,7 +18,7 @@
                 @if (fs_sticky_posts())
                     <div class="list-group mb-4">
                         @foreach(fs_sticky_posts() as $sticky)
-                            @component('components.post.sticky', compact('sticky'))@endcomponent
+                            @component('components.posts.sticky', compact('sticky'))@endcomponent
                         @endforeach
                     </div>
                 @endif
@@ -26,7 +26,7 @@
                 {{-- 帖子列表 --}}
                 <article class="card clearfix">
                     @foreach($posts as $post)
-                        @component('components.post.list', compact('post'))@endcomponent
+                        @component('components.posts.list', compact('post'))@endcomponent
                         @if (! $loop->last)
                             <hr>
                         @endif

@@ -10,22 +10,22 @@
         <div class="d-flex justify-content-between fs-text-decoration fs-breadcrumb mt-2">
             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                 <ol class="breadcrumb mb-0">
-                    <li class="breadcrumb-item"><a href="{{ fs_route(route('fresns.home')) }}"><i class="bi bi-house-door-fill"></i></a></li>
-                    <li class="breadcrumb-item"><a href="{{ fs_route(route('fresns.group.index')) }}">{{ fs_config('channel_group_name') }}</a></li>
-                    <li class="breadcrumb-item"><span class="fs-8">{{ $group['category']['name'] }}</span></li>
-                    <li class="breadcrumb-item"><a href="{{ fs_route(route('fresns.group.detail', ['gid' => $group['gid']])) }}">{{ $group['name'] }}</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fresns.home') }}"><i class="bi bi-house-door-fill"></i></a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fresns.group.index') }}">{{ fs_config('channel_group_name') }}</a></li>
+                    <li class="breadcrumb-item"><span class="fs-8">{{ $group['parentInfo']['name'] }}</span></li>
+                    <li class="breadcrumb-item"><a href="{{ route('fresns.group.detail', ['gid' => $group['gid']]) }}">{{ $group['name'] }}</a></li>
                 </ol>
             </nav>
             <div class="pt-1">
                 @if (fs_user()->check())
-                    <a href="{{ fs_route(route('fresns.profile.index', ['uidOrUsername' => fs_user('detail.uid')])) }}" class="fs-8">{{ fs_lang('userProfile') }}</a>
+                    <a href="{{ route('fresns.profile.index', ['uidOrUsername' => fs_user('detail.uid')]) }}" class="fs-8">{{ fs_lang('userProfile') }}</a>
                 @endif
             </div>
         </div>
 
         {{-- 小组详情 --}}
         <div class="card rounded-0 mt-2 mb-3">
-            @component('components.group.detail', compact('group'))@endcomponent
+            @component('components.groups.detail', compact('group'))@endcomponent
         </div>
 
         {{-- 小组扩展 --}}
@@ -56,7 +56,7 @@
                 @if (fs_config('forumx_quick_publish'))
                     <button class="btn btn-primary px-4" type="button" data-bs-toggle="modal" data-bs-target="#createModal">{{ fs_config('publish_post_name') }}</button>
                 @else
-                    <a class="btn btn-primary px-4" href="{{ fs_route(route('fresns.editor.post')) }}">{{ fs_config('publish_post_name') }}</a>
+                    <a class="btn btn-primary px-4" href="{{ route('fresns.editor.post') }}">{{ fs_config('publish_post_name') }}</a>
                 @endif
             @else
                 <button class="btn btn-primary px-4" type="button" data-bs-toggle="modal" data-bs-target="#commentTipModal">{{ fs_config('publish_post_name') }}</button>
@@ -69,19 +69,19 @@
                 <thead>
                     <tr class="table-secondary">
                         <th scope="col">
-                            @include('components.post.filter')
+                            @include('components.posts.filter')
                         </th>
                         <th scope="col">{{ fs_lang('contentAuthor') }}</th>
                         <th scope="col">{{ fs_config('comment_name') }}</th>
                         @desktop
-                            <th scope="col">{{ fs_lang('contentLatestCommentTime') }}</th>
+                            <th scope="col">{{ fs_lang('contentLastCommentTime') }}</th>
                         @enddesktop
                     </tr>
                 </thead>
                 <tbody class="fs-text-decoration fs-x-link">
                     {{-- 全局置顶 --}}
                     @foreach(fs_sticky_posts() as $stickyPost)
-                        @component('components.post.x-list', [
+                        @component('components.posts.x-list', [
                             'post' => $stickyPost,
                             'sticky' => true,
                             'groupSticky' => false,
@@ -90,7 +90,7 @@
 
                     {{-- 小组置顶 --}}
                     @foreach(fs_sticky_posts($group['gid']) as $gorupPost)
-                        @component('components.post.x-list', [
+                        @component('components.posts.x-list', [
                             'post' => $gorupPost,
                             'sticky' => false,
                             'groupSticky' => true,
@@ -107,7 +107,7 @@
 
                     {{-- 帖子列表 --}}
                     @foreach($posts as $post)
-                        @component('components.post.x-list', [
+                        @component('components.posts.x-list', [
                             'post' => $post,
                             'sticky' => false,
                             'groupSticky' => false,

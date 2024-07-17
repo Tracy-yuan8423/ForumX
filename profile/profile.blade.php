@@ -8,7 +8,7 @@
     <main class="row justify-content-md-center">
         <div class="col-md-6 card mt-4">
             <header class="profile-header position-relative text-center">
-                @component('components.user.detail', compact('profile', 'followersYouFollow'))@endcomponent
+                @component('components.users.detail', compact('profile', 'followersYouFollow'))@endcomponent
 
                 {{-- 管理菜单 --}}
                 @if ($items['manages'])

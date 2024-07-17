@@ -17,7 +17,7 @@
                 {{-- 小组列表 --}}
                 <article class="card clearfix py-4">
                     @foreach($groups as $group)
-                        @component('components.group.list', compact('group'))@endcomponent
+                        @component('components.groups.list', compact('group'))@endcomponent
                         @if (! $loop->last)
                             <hr>
                         @endif

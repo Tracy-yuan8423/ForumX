@@ -15,7 +15,7 @@
                 {{-- 话题列表 --}}
                 <article class="card clearfix py-4">
                     @foreach($hashtags as $hashtag)
-                        @component('components.hashtag.list', compact('hashtag'))@endcomponent
+                        @component('components.hashtags.list', compact('hashtag'))@endcomponent
                         @if (! $loop->last)
                             <hr>
                         @endif

@@ -15,7 +15,7 @@
                 {{-- 评论列表 --}}
                 <article class="card clearfix">
                     @foreach($comments as $comment)
-                        @component('components.comment.list', compact('comment'))@endcomponent
+                        @component('components.comments.list', compact('comment'))@endcomponent
                         @if (! $loop->last)
                             <hr>
                         @endif

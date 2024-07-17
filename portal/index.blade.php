@@ -5,7 +5,7 @@
 @section('description', fs_config('channel_portal_seo')['description'])
 
 @section('content')
-    <div class="portal">
+    <div class="portal container-lg">
         {!! $content !!}
     </div>
 @endsection

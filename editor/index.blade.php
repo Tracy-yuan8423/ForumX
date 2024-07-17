@@ -7,13 +7,13 @@
         <div class="fresns-editor">
             {{-- 提示: 发表权限 --}}
             @if ($configs['publish']['limit']['status'] && $configs['publish']['limit']['isInTime'])
-                @component('components.editor.tip.publish', [
+                @component('components.editor.tips.publish', [
                     'publishConfig' => $configs['publish'],
                 ])@endcomponent
             @endif
 
             {{-- 工具栏 --}}
-            @component('components.editor.section.toolbar', [
+            @component('components.editor.sections.toolbar', [
                 'type' => $type,
                 'did' => '',
                 'editorConfig' => $configs['editor'],
@@ -23,7 +23,7 @@
             <div class="editor-box p-3">
                 {{-- 标题 --}}
                 @if ($configs['editor']['title']['status'])
-                    @component('components.editor.section.title', [
+                    @component('components.editor.sections.title', [
                         'titleConfig' => $configs['editor']['title'],
                         'title' => '',
                     ])@endcomponent
@@ -58,8 +58,8 @@
                 </div>
 
                 <div class="modal-footer">
-                    <a class="btn btn-secondary" href="{{ fs_route(route('fresns.post.index')) }}" role="button">{{ fs_lang('return') }}</a>
-                    <a class="btn btn-primary" href="{{ fs_route(route('fresns.editor.post', ['skipDrafts' => true])) }}" role="button">{{ fs_lang('editorDraftCreate') }}</a>
+                    <a class="btn btn-secondary" href="{{ route('fresns.post.index') }}" role="button">{{ fs_lang('return') }}</a>
+                    <a class="btn btn-primary" href="{{ route('fresns.editor.post', ['skipDrafts' => true]) }}" role="button">{{ fs_lang('editorDraftCreate') }}</a>
                 </div>
             </div>
         </div>

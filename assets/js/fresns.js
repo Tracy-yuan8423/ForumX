@@ -13,10 +13,16 @@ $.ajaxSetup({
 });
 
 // utc timezone
-const now = new Date();
-const timezoneOffsetInHours = now.getTimezoneOffset() / -60;
-const fresnsTimezone = (timezoneOffsetInHours > 0 ? '+' : '') + timezoneOffsetInHours.toString();
-Cookies.set('fresns_timezone', fresnsTimezone);
+const cookieTimezone = Cookies.get('fresns_timezone');
+if (!cookieTimezone) {
+    const now = new Date();
+    const timezoneOffsetInHours = now.getTimezoneOffset() / -60;
+    const fresnsTimezone = (timezoneOffsetInHours > 0 ? '+' : '') + timezoneOffsetInHours.toString();
+    const cookieMinutes = 30 / 1440;
+
+    console.log('cookie', 'fresns_timezone', fresnsTimezone);
+    Cookies.set('fresns_timezone', fresnsTimezone, { expires: cookieMinutes });
+}
 
 // bootstrap Tooltips
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
@@ -61,12 +67,6 @@ window.fs_lang = function (key, replace = {}) {
 
 // tips
 window.tips = function (message, code = 200) {
-    if (window.langTag) {
-        langTag = '/' + window.langTag;
-    } else {
-        langTag = '';
-    }
-
     siteName = window.siteName ?? 'Tip';
     siteIcon = window.siteIcon ?? '/static/images/icon.png';
 
@@ -79,14 +79,14 @@ window.tips = function (message, code = 200) {
     if (code == 36104) {
         apiMessage = `${message}
             <div class="mt-2 pt-2 border-top">
-                <a class="btn btn-primary btn-sm" href="${langTag}/me/settings" role="button">
+                <a class="btn btn-primary btn-sm" href="/me/settings" role="button">
                     ${fs_lang('settingAccount')}
                 </a>
             </div>`;
     } else if (code == 38200) {
         apiMessage = `${message}
             <div class="mt-2 pt-2 border-top">
-                <a class="btn btn-primary btn-sm" href="${langTag}/me/drafts" role="button">
+                <a class="btn btn-primary btn-sm" href="/me/drafts" role="button">
                     ${fs_lang('view')}
                 </a>
             </div>`;
@@ -744,9 +744,11 @@ window.buildAjaxAndSubmit = function (url, body, succeededCallback, failedCallba
             type = button.data('type'),
             inputTips = button.data('input-tips'),
             option = button.data('option'),
+            action = button.data('action'),
             value = button.data('value') ?? '';
 
         $(this).find('.modal-title').empty().html(label);
+        $(this).find('form').attr('action', action);
         $(this)
             .find('.modal-footer button[type="submit"]')
             .data('targe-type', type ?? 'input')
@@ -801,8 +803,7 @@ window.buildAjaxAndSubmit = function (url, body, succeededCallback, failedCallba
         let formData = new FormData(),
             token = $('meta[name="csrf-token"]').attr('content'),
             obj = $(this),
-            uploadAction = $(this).data('upload-action'),
-            uidOrUsername = $(this).data('user-fsid');
+            uidOrUsername = obj.data('user-fsid');
 
         obj.prop('disabled', true);
         obj.prev().prepend(
@@ -816,7 +817,7 @@ window.buildAjaxAndSubmit = function (url, body, succeededCallback, failedCallba
         formData.append('type', 'image');
 
         $.ajax({
-            url: uploadAction,
+            url: '/api/theme/actions/api/fresns/v1/common/file/upload',
             type: 'POST',
             cache: false,
             data: formData,
@@ -842,8 +843,7 @@ window.buildAjaxAndSubmit = function (url, body, succeededCallback, failedCallba
             token = $('meta[name="csrf-token"]').attr('content'),
             obj = $(this),
             type = obj.data('type'),
-            uploadAction = $(this).data('upload-action'),
-            uidOrUsername = $(this).data('user-fsid');
+            uidOrUsername = obj.data('user-fsid');
 
         $('.send-file-btn').prop('disabled', true);
         $('.send-file-btn').prepend(
@@ -857,7 +857,7 @@ window.buildAjaxAndSubmit = function (url, body, succeededCallback, failedCallba
         formData.append('type', type);
 
         $.ajax({
-            url: uploadAction,
+            url: '/api/theme/actions/api/fresns/v1/common/file/upload',
             type: 'POST',
             cache: false,
             data: formData,
@@ -1151,7 +1151,7 @@ var fresnsFile = {
         usageType,
         usageFsid,
         fileType,
-        uploadType,
+        uploadMethod,
         files,
         supportedExtensions,
         maxSize,
@@ -1203,7 +1203,7 @@ var fresnsFile = {
                 usageType,
                 usageFsid,
                 fileType,
-                uploadType,
+                uploadMethod,
                 file,
                 supportedExtensions,
                 maxSize,
@@ -1217,7 +1217,7 @@ var fresnsFile = {
         usageType,
         usageFsid,
         fileType,
-        uploadType,
+        uploadMethod,
         file,
         supportedExtensions,
         maxSize,
@@ -1235,7 +1235,7 @@ var fresnsFile = {
                 return;
             }
 
-            fresnsFile.makeUploadToken(fileData, uploadType, file);
+            fresnsFile.makeUploadToken(fileData, uploadMethod, file);
         }
 
         let fileData = {
@@ -1244,7 +1244,7 @@ var fresnsFile = {
             type: fileType,
             name: file.name,
             mime: file.type,
-            extension: file.name.split('.').pop(),
+            extension: file.name.split('.').pop().toLowerCase(),
             size: file.size,
             width: null,
             height: null,
@@ -1333,8 +1333,8 @@ var fresnsFile = {
     },
 
     // make upload token
-    makeUploadToken: function (fileData, uploadType, file) {
-        if (uploadType == 'api') {
+    makeUploadToken: function (fileData, uploadMethod, file) {
+        if (uploadMethod == 'api') {
             let uploadToken = {
                 url: '/api/theme/actions/api/fresns/v1/common/file/upload',
                 method: 'POST',
@@ -1342,7 +1342,7 @@ var fresnsFile = {
                 fid: '',
             };
 
-            fresnsFile.uploadFile(uploadType, uploadToken, fileData, file);
+            fresnsFile.uploadFile(uploadMethod, uploadToken, fileData, file);
             return;
         }
 
@@ -1362,7 +1362,7 @@ var fresnsFile = {
                     return;
                 }
 
-                fresnsFile.uploadFile(uploadType, res.data, fileData, file);
+                fresnsFile.uploadFile(uploadMethod, res.data, fileData, file);
             },
             error: function (e) {
                 tips(e.responseJSON.message, true);
@@ -1376,7 +1376,7 @@ var fresnsFile = {
     },
 
     // upload file
-    uploadFile: function (uploadType, uploadToken, fileData, file) {
+    uploadFile: function (uploadMethod, uploadToken, fileData, file) {
         let formData = new FormData();
         formData.append('usageType', fileData.usageType);
         formData.append('usageFsid', fileData.usageFsid);
@@ -1386,7 +1386,7 @@ var fresnsFile = {
         formData.append('moreInfo', JSON.stringify(fileData.moreInfo));
 
         // api upload
-        if (uploadType == 'api') {
+        if (uploadMethod == 'api') {
             let fileNumber = numberFiles - numberUploaded;
 
             $.ajax({
@@ -1395,7 +1395,6 @@ var fresnsFile = {
                 data: formData,
                 processData: false,
                 contentType: false,
-                enctype: 'multipart/form-data',
                 success: function (res) {
                     if (res.code != 0) {
                         tips(res.message, res.code);
@@ -1429,10 +1428,14 @@ var fresnsFile = {
                         $('#uploadSubmit').prop('disabled', false);
                         $('#uploadSubmit').find('.spinner-border').remove();
 
-                        $('#fresnsUploadModal .btn-close').trigger('click');
-
                         $('#uploadProgressBar').attr('aria-valuenow', 100);
                         $('#uploadProgressBar').find('.progress-bar').css('width', '100%').text('100%');
+
+                        $('#fresnsUploadModal .btn-close').trigger('click');
+
+                        var fileInput = $('#fileInput');
+                        fileInput.replaceWith(fileInput.val('').clone(true));
+                        $('#uploadProgressBar').addClass('d-none');
                     }
                 },
             });
@@ -1445,10 +1448,9 @@ var fresnsFile = {
             url: uploadToken.url,
             type: uploadToken.method,
             headers: uploadToken.headers,
-            data: formData,
+            data: file,
             processData: false,
             contentType: false,
-            enctype: 'multipart/form-data',
             success: function (res) {
                 numberUploaded++;
 
@@ -1494,10 +1496,14 @@ var fresnsFile = {
                     $('#uploadSubmit').prop('disabled', false);
                     $('#uploadSubmit').find('.spinner-border').remove();
 
-                    $('#fresnsUploadModal .btn-close').trigger('click');
-
                     $('#uploadProgressBar').attr('aria-valuenow', 100);
                     $('#uploadProgressBar').find('.progress-bar').css('width', '100%').text('100%');
+
+                    $('#fresnsUploadModal .btn-close').trigger('click');
+
+                    var fileInput = $('#fileInput');
+                    fileInput.replaceWith(fileInput.val('').clone(true));
+                    $('#uploadProgressBar').addClass('d-none');
                 }
             },
         });

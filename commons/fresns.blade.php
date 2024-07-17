@@ -15,6 +15,14 @@
     <meta name="apple-mobile-web-app-title" content="{{ fs_config('site_name') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ fs_config('site_icon') }}">
     <link rel="icon" href="{{ fs_config('site_icon') }}">
+    @if (fs_config('language_status'))
+        @foreach(fs_config('language_menus') as $lang)
+            @if (! $lang['isEnabled'])
+                @continue
+            @endif
+            <link rel="alternate" hreflang="{{ $lang['langTag'] }}" href="{!! fs_config('default_language') == $lang['langTag'] ? request()->fullUrl() : request()->fullUrlWithQuery(['language' => $lang['langTag']]) !!}"/>
+        @endforeach
+    @endif
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="/static/css/bootstrap-icons.min.css">
     <link rel="stylesheet" href="{{ fs_theme('assets', 'css/atwho.min.css') }}">
@@ -33,14 +41,15 @@
         <div class="fs-lang-nav fs-text-decoration">
             <div class="container">
                 @foreach(fs_config('language_menus') as $lang)
-                    @if ($lang['isEnabled'])
-                        <a class="me-2 @if (fs_theme('lang') == $lang['langTag']) active @endif" hreflang="{{ $lang['langTag'] }}" href="{{ \Mcamara\LaravelLocalization\Facades\LaravelLocalization::getLocalizedURL($lang['langTag'], null, [], true) }}">
-                            {{ $lang['langName'] }}
-                            @if ($lang['areaName'])
-                                {{ '('.$lang['areaName'].')' }}
-                            @endif
-                        </a>
+                    @if (! $lang['isEnabled'])
+                        @continue
                     @endif
+                    <a class="me-2 @if (fs_theme('lang') == $lang['langTag']) active @endif" href="{!! request()->fullUrlWithQuery(['language' => $lang['langTag']]) !!}" hreflang="{{ $lang['langTag'] }}">
+                        {{ $lang['langName'] }}
+                        @if ($lang['areaName'])
+                            {{ '('.$lang['areaName'].')' }}
+                        @endif
+                    </a>
                 @endforeach
             </div>
         </div>
@@ -168,8 +177,6 @@
         window.ajaxGetList = false;
         window.siteName = "{{ fs_config('site_name') }}";
         window.siteIcon = "{{ fs_config('site_icon') }}";
-        window.langTag = "{{ fs_theme('lang') }}";
-        window.cookiePrefix = "{{ fs_config('website_cookie_prefix') }}";
         window.userIdentifier = "{{ fs_config('user_identifier') }}";
         window.mentionStatus = {{ fs_config('mention_status') ? 1 : 0 }};
         window.hashtagStatus = {{ fs_config('hashtag_status') ? 1 : 0 }};

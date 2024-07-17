@@ -10,15 +10,15 @@
                 <input type="hidden" name="gid" id="editor-group-gid" value="{{ $draft['detail']['group']['gid'] ?? '' }}" />
                 {{-- 提示: 发表权限 --}}
                 @if ($configs['publish']['limit']['status'] && $configs['publish']['limit']['isInTime'])
-                    @component('components.editor.tip.publish', [
+                    @component('components.editor.tips.publish', [
                         'publishConfig' => $configs['publish'],
                     ])@endcomponent
                 @endif
 
                 {{-- 提示: 编辑控件 --}}
-                @if ($draft['editControls']['isEditDraft'] && ! in_array($draft['detail']['state'], [2, 3]))
-                    @component('components.editor.tip.edit', [
-                        'editControls' => $draft['editControls'],
+                @if ($draft['controls']['isEditDraft'] && ! in_array($draft['detail']['state'], [2, 3]))
+                    @component('components.editor.tips.edit', [
+                        'controls' => $draft['controls'],
                     ])@endcomponent
                 @endif
 
@@ -31,7 +31,7 @@
 
                 {{-- 小组 --}}
                 @if ($configs['editor']['group']['status'])
-                    @component('components.editor.section.group', [
+                    @component('components.editor.sections.group', [
                         'groupConfig' => $configs['editor']['group'],
                         'did' => $draft['detail']['did'],
                         'group' => $draft['detail']['group'],
@@ -39,7 +39,7 @@
                 @endif
 
                 {{-- 工具栏 --}}
-                @component('components.editor.section.toolbar', [
+                @component('components.editor.sections.toolbar', [
                     'type' => $type,
                     'did' => $draft['detail']['did'],
                     'editorConfig' => $configs['editor'],
@@ -49,7 +49,7 @@
                 <div class="editor-box p-3">
                     {{-- 标题 --}}
                     @if ($configs['editor']['title']['status'] || optional($draft['detail'])['title'])
-                        @component('components.editor.section.title', [
+                        @component('components.editor.sections.title', [
                             'titleConfig' => $configs['editor']['title'],
                             'title' => $draft['detail']['title'] ?? '',
                         ])@endcomponent
@@ -59,18 +59,18 @@
                     <textarea class="form-control rounded-0 border-0 editor-content" name="content" id="content" rows="15" placeholder="{{ fs_lang('editorContent') }}">{{ $draft['detail']['content'] }}</textarea>
 
                     {{-- 文件内容 --}}
-                    @component('components.editor.section.files', [
+                    @component('components.editor.sections.files', [
                         'files' => $draft['detail']['files'],
                     ])@endcomponent
 
                     {{-- 扩展内容 --}}
-                    @component('components.editor.section.extends', [
+                    @component('components.editor.expands.content-box', [
                         'extends' => $draft['detail']['extends'],
                     ])@endcomponent
 
                     {{-- 阅读权限 --}}
                     @if ($draft['detail']['permissions']['readConfig'] ?? null)
-                        @component('components.editor.section.config-read', [
+                        @component('components.editor.expands.read-config', [
                             'type' => $type,
                             'did' => $draft['detail']['did'],
                             'readConfig' => $draft['detail']['permissions']['readConfig'],
@@ -79,7 +79,7 @@
 
                     {{-- 扩展按钮 --}}
                     @if ($draft['detail']['permissions']['commentConfig']['action'] ?? null)
-                        @component('components.editor.section.config-action-button', [
+                        @component('components.editor.expands.action-button', [
                             'type' => $type,
                             'did' => $draft['detail']['did'],
                             'actionButton' => $draft['detail']['permissions']['commentConfig']['action'],
@@ -88,7 +88,7 @@
 
                     {{-- 附属用户列表 --}}
                     @if ($draft['detail']['permissions']['associatedUserListConfig'] ?? null)
-                        @component('components.editor.section.config-associated-user-list', [
+                        @component('components.editor.expands.associated-user-list', [
                             'type' => $type,
                             'did' => $draft['detail']['did'],
                             'associatedUserListConfig' => $draft['detail']['permissions']['associatedUserListConfig'],
@@ -101,7 +101,7 @@
                     <div class="d-flex justify-content-between">
                         {{-- 位置 --}}
                         @if ($configs['editor']['location']['status'])
-                            @component('components.editor.section.location', [
+                            @component('components.editor.sections.location', [
                                 'type' => $type,
                                 'did' => $draft['detail']['did'],
                                 'locationConfig' => $configs['editor']['location'],
@@ -145,7 +145,7 @@
                         <input type="hidden" name="usageType" @if ($type === 'post') value="postDraft" @elseif ($type === "comment") value="commentDraft" @endif>
                         <input type="hidden" name="usageFsid" value="{{ $draft['detail']['did'] }}">
                         <input type="hidden" name="fileType">
-                        <input type="hidden" name="uploadType">
+                        <input type="hidden" name="uploadMethod">
                         <input type="file" name="files" class="form-control" id="fileInput">
 
                         {{-- progress bar --}}
@@ -233,10 +233,10 @@
                         actionUrl = form.attr('action'),
                         methodType = form.attr('method') || 'POST',
                         type = "{{ $type }}",
-                        detailURLTemplate = "{{ fs_route(route('fresns.post.detail', ['pid' => 'FresnsPlaceholder'])) }}";
+                        detailURLTemplate = "{{ route('fresns.post.detail', ['pid' => 'temporaryID']) }}"; // temporaryID
 
                     if (type == 'comment') {
-                        detailURLTemplate = "{{ fs_route(route('fresns.comment.detail', ['cid' => 'FresnsPlaceholder'])) }}";
+                        detailURLTemplate = "{{ route('fresns.comment.detail', ['cid' => 'temporaryID']) }}"; // temporaryID
                     }
 
                     $.ajax({
@@ -247,7 +247,7 @@
 
                             if (res.code == 0) {
                                 let fsid = res.data.fsid;
-                                let detailURL = detailURLTemplate.replace('FresnsPlaceholder', fsid);
+                                let detailURL = detailURLTemplate.replace('temporaryID', fsid); // temporaryID
 
                                 window.location.href = detailURL;
                             }
@@ -372,7 +372,7 @@
                 var button = $(e.relatedTarget);
 
                 let fileType = button.data('type'),
-                    uploadType = button.data('uploadtype'),
+                    uploadMethod = button.data('uploadmethod'),
                     accept = button.data('accept'),
                     extensions = button.data('extensions'),
                     maxSize = button.data('maxsize'),
@@ -398,7 +398,7 @@
                 }
 
                 $(this).find("input[name='fileType']").val(fileType);
-                $(this).find("input[name='uploadType']").val(uploadType);
+                $(this).find("input[name='uploadMethod']").val(uploadMethod);
             });
 
             // upload request
@@ -409,15 +409,15 @@
                     usageType = form.find('input[name=usageType]').val(),
                     usageFsid = form.find('input[name=usageFsid]').val(),
                     fileType = form.find('input[name=fileType]').val(),
-                    uploadType = form.find('input[name=uploadType]').val(),
+                    uploadMethod = form.find('input[name=uploadMethod]').val(),
                     files = form.find('input[name=files]')[0].files,
                     supportedExtensions = $('#extensions').text(),
-                    maxSize = parseInt($('#maxSize').text()),
-                    maxDuration = parseInt($('#maxDuration').text() || 0),
+                    maxSize = parseInt($('#maxSize').text() || 0) + 1,
+                    maxDuration = parseInt($('#maxDuration').text() || 0) + 1,
                     maxNumber = parseInt($('#maxNumber').text());
 
-                console.log(usageType, usageFsid, fileType, uploadType, supportedExtensions, maxSize, maxDuration);
-                fresnsFile.uploadRequest(usageType, usageFsid, fileType, uploadType, files, supportedExtensions, maxSize, maxDuration);
+                console.log(usageType, usageFsid, fileType, uploadMethod, supportedExtensions, maxSize, maxDuration);
+                fresnsFile.uploadRequest(usageType, usageFsid, fileType, uploadMethod, files, supportedExtensions, maxSize, maxDuration);
             });
         })(jQuery);
     </script>

@@ -17,7 +17,7 @@
                 {{-- 评论列表 --}}
                 <article class="card clearfix">
                     @foreach($comments as $comment)
-                        @component('components.comment.list', [
+                        @component('components.comments.list', [
                             'comment' => $comment,
                             'detailLink' => true,
                             'sectionAuthorLiked' => false,
